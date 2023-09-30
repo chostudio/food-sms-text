@@ -1,2 +1,2 @@
 # food-sms-text
-Select restaurants to get an SMS text to your phone of the menu items everyday
+Get a daily SMS text of OSU's frequently changing restaurants menus.
