@@ -28,6 +28,10 @@ urlDictionary = {
 html = requests.get(url)
 soup = BeautifulSoup(html.content, "html.parser")
 
+
+html2 = requests.get(urlDictionary["urlWestSideGrill"])
+soup2 = BeautifulSoup(html2.content, "html.parser")
+
 #get today's date
 today = date.today()
 
@@ -44,8 +48,18 @@ d2 = today.strftime("%d")
 
 # find the div that contains the h6 title tag
 titleText = ""
+menuTitleList = []
 
 titleList = soup.find_all('h1', class_ = 'zone')
+
+# This works for inner restaurant webpage food and when
+menuTitleList = soup2.find_all('div', class_ = 'section')[:3]
+
+menuTitleText = ""
+for i in menuTitleList:
+        menuTitleText += i.getText() + "\n"
+
+print(menuTitleText)
 # restaurantList = soup.find_all('a', class_ = 'concept')
 # timeList = soup.find_all('div', class_ = 'time')
 
@@ -55,11 +69,12 @@ titleList = soup.find_all('h1', class_ = 'zone')
 # print(titleText)
 
 # splice [start:end]
-# [7:11] for main dining hall titles
-for data in titleList:
+# [6:10] for main dining hall titles
+finalTitleList = []
+for data in titleList[6:10]:
         # Remove tags
-        titleText += data.get_text()
-print(titleText)
+        finalTitleList.append(data.get_text())
+print(finalTitleList)
 # print(soup.find_all('div', class_ = 'pure_g').contents)
 
 
