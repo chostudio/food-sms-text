@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup
 import requests
 from twilio.rest import Client
 from datetime import date
+import os
+
+SECRET_API_KEY = os.environ["SECRET_API_KEY"]
 
 # BeautifulSoup part
 url = "https://my.uhds.oregonstate.edu/api/drupal/hours"
