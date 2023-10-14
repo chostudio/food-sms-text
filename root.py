@@ -1,10 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 from twilio.rest import Client
-from datetime import date
 import os
-
-SECRET_API_KEY = os.environ["SECRET_API_KEY"]
 
 # BeautifulSoup part
 url = "https://my.uhds.oregonstate.edu/api/drupal/hours"
@@ -31,18 +28,8 @@ urlDictionary = {
 html = requests.get(url)
 soup = BeautifulSoup(html.content, "html.parser")
 
-
 html2 = requests.get(urlDictionary["urlWestSideGrill"])
 soup2 = BeautifulSoup(html2.content, "html.parser")
-
-#get today's date
-today = date.today()
-
-# Numerical day
-d2 = today.strftime("%d")
-
-# example: 30, 01, 05
-
 
 # multiple big for loops?
 # inner while loop?
@@ -53,16 +40,17 @@ d2 = today.strftime("%d")
 titleText = ""
 menuTitleList = []
 
-titleList = soup.find_all('h1', class_ = 'zone')
+diningHallList = soup.find_all('h1', class_ = 'zone')
+restaurantList = soup.find_all('div', class_ = 'pure-g')
 
 # This works for inner restaurant webpage food and when
-menuTitleList = soup2.find_all('div', class_ = 'section')[:3]
+# menuTitleList = soup2.find_all('div', class_ = 'section')[:3]
 
-menuTitleText = ""
-for i in menuTitleList:
-        menuTitleText += i.getText() + "\n"
+# menuTitleText = ""
+# for i in menuTitleList:
+#         menuTitleText += i.getText() + "\n"
 
-print(menuTitleText)
+# print(menuTitleText)
 # restaurantList = soup.find_all('a', class_ = 'concept')
 # timeList = soup.find_all('div', class_ = 'time')
 
@@ -71,40 +59,28 @@ print(menuTitleText)
 #     titleText += data.findChildren()
 # print(titleText)
 
-# splice [start:end]
-# [6:10] for main dining hall titles
-finalTitleList = []
-for data in titleList[6:10]:
-        # Remove tags
-        finalTitleList.append(data.get_text())
-print(finalTitleList)
-# print(soup.find_all('div', class_ = 'pure_g').contents)
-
-
-
 textMessageBody = ""
-# textMessageBody += soup.something
+for i in range(7, 10):
+        textMessageBody += diningHallList[i-1].get_text()
+        textMessageBody += restaurantList[i].get_text()
+print(textMessageBody)
 
 
-
-# #Twilio texting part
-
-# figure out how to hide the api key in hosting dashboard
-
+# Twilio texting part
 # Your Account SID and Auth Token from console.twilio.com
-# account_sid = "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-# auth_token  = "your_auth_token"
+ACCOUNT_SID = os.environ["ACCOUNT_SID"]
+AUTH_TOKEN = os.environ["AUTH_TOKEN"]
+NUMBER = os.environ["NUMBER"]
 
-# client = Client(account_sid, auth_token)
+client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
 # # for i in range(len(phoneNumbers)):
 
 # for sms in client.messages.list():
 #   print(sms.to)
 
-# message = client.messages.create(
-#     to = phoneNumbers[i], #this is the phone number that is recieving texts
-#     from_="+15017250604",
-#     body = textMessageBody )
-
-# print(message.sid)
+message = client.messages.create(
+    from_="+15017250604", # the phone number that is sending texts
+    body = textMessageBody,
+    to = NUMBER # the phone number that is recieving texts
+     )

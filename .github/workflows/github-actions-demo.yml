@@ -2,7 +2,12 @@ name: run root.py
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   schedule:
-    - cron: "0 7 * * *" # At 07:00 AM everyday
+    - cron: "0 14 * * *" # Runs at 07:00 AM PST everyday (cron uses UTC time which is +7 hours compared to PST time)
+env:
+  ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
+  AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+  NUMBER: ${{ secrets.NUMBER }}
+  
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest

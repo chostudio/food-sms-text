@@ -1,2 +1,2 @@
 # food-sms-text
-Get a daily SMS text of Oregon State University's frequently changing restaurant menus.
+Receive a daily text message of Oregon State University's frequently changing Dining Hall menus.
