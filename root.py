@@ -59,10 +59,11 @@ restaurantList = soup.find_all('div', class_ = 'pure-g')
 #     titleText += data.findChildren()
 # print(titleText)
 
-textMessageBody = ""
+textMessageBody = "\n"
 for i in range(7, 10):
         textMessageBody += diningHallList[i-1].get_text()
         textMessageBody += restaurantList[i].get_text()
+textMessageBody = textMessageBody.rstrip()
 print(textMessageBody)
 
 
