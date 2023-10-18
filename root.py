@@ -63,7 +63,6 @@ textMessageBody = "\n"
 for i in range(7, 10):
         textMessageBody += diningHallList[i-1].get_text()
         textMessageBody += restaurantList[i].get_text()
-textMessageBody = textMessageBody.rstrip()
 print(textMessageBody)
 
 
