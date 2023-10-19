@@ -59,13 +59,6 @@ restaurantList = soup.find_all('div', class_ = 'pure-g')
 #     titleText += data.findChildren()
 # print(titleText)
 
-textMessageBody = "\n"
-for i in range(7, 10):
-        textMessageBody += diningHallList[i-1].get_text()
-        textMessageBody += restaurantList[i].get_text()
-print(textMessageBody)
-
-
 # Twilio texting part
 # Your Account SID and Auth Token from console.twilio.com
 ACCOUNT_SID = os.environ["ACCOUNT_SID"]
@@ -74,13 +67,16 @@ NUMBER = os.environ["NUMBER"]
 
 client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
-# # for i in range(len(phoneNumbers)):
-
-# for sms in client.messages.list():
-#   print(sms.to)
-
-message = client.messages.create(
-    from_="+18556429708", # the phone number that is sending texts
-    body = textMessageBody,
-    to = NUMBER # the phone number that is recieving texts
-     )
+textMessageBody = "\n"
+for i in range(7, 10, 2):
+        textMessageBody += diningHallList[i-1].get_text()
+        textMessageBody += restaurantList[i].get_text()
+        message = client.messages.create(
+                from_="+18556429708", # the phone number that is sending texts
+                body = textMessageBody,
+                to = NUMBER # the phone number that is recieving texts
+        )
+        textMessageBody = textMessageBody.replace("More Hours >>", "")
+        textMessageBody = textMessageBody.replace("\n\n", "\n")
+        print(textMessageBody)
+textMessageBody = ""
