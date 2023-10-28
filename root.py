@@ -69,14 +69,25 @@ client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
 textMessageBody = "\n"
 for i in range(7, 10, 2):
-        textMessageBody += diningHallList[i-1].get_text()
-        textMessageBody += restaurantList[i].get_text()
-        textMessageBody = textMessageBody.replace("More Hours", "")
-        textMessageBody = textMessageBody.replace("\n\n", "\n")
-        message = client.messages.create(
-                from_="+18556429708", # the phone number that is sending texts
-                body = textMessageBody,
-                to = NUMBER # the phone number that is recieving texts
-        )
-        print(textMessageBody)
-        textMessageBody = ""
+  textMessageBody += diningHallList[i-1].get_text()
+  textMessageBody += restaurantList[i].get_text()
+  textMessageBody = textMessageBody.replace("More Hours", "")
+  textMessageBody = textMessageBody.replace("\n\n", "\n")
+  if len(textMessageBody) < 1600: # because 1600 is twilio SMS char max
+    message = client.messages.create(
+    from_="+18556429708", # the phone number that is sending texts
+    body = textMessageBody,
+    to = NUMBER # the phone number that is recieving texts
+    )
+  else:
+    message = client.messages.create(
+    from_="+18556429708", # the phone number that is sending texts
+    body = textMessageBody[:1500],
+    to = NUMBER # the phone number that is recieving texts
+    )
+    message = client.messages.create(
+    from_="+18556429708", # the phone number that is sending texts
+    body = textMessageBody[1500:],
+    to = NUMBER # the phone number that is recieving texts
+    )
+  textMessageBody = ""
