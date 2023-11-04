@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 from twilio.rest import Client
 import os
+import time
 
 # BeautifulSoup part
 url = "https://my.uhds.oregonstate.edu/api/drupal/hours"
@@ -79,15 +80,18 @@ for i in range(7, 10, 2):
     body = textMessageBody,
     to = NUMBER # the phone number that is recieving texts
     )
+    time.sleep(2)
   else:
     message = client.messages.create(
     from_="+18556429708", # the phone number that is sending texts
     body = textMessageBody[:1500],
     to = NUMBER # the phone number that is recieving texts
     )
+    time.sleep(2)
     message = client.messages.create(
     from_="+18556429708", # the phone number that is sending texts
     body = textMessageBody[1500:],
     to = NUMBER # the phone number that is recieving texts
     )
+    time.sleep(2)
   textMessageBody = ""
