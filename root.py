@@ -92,4 +92,4 @@ for i in range(7, 10, 2):
     to = NUMBER # the phone number that is recieving texts
     )
   textMessageBody = ""
-  time.sleep(2)
+  time.sleep(10)
